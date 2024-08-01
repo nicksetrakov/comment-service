@@ -1,5 +1,13 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+
+from comments.views import CommentViewSet
+
+router = routers.DefaultRouter()
+router.register("comments", CommentViewSet)
 
 urlpatterns = [
-    # Здесь позже добавим URL-пути для API
+    path("", include(router.urls)),
 ]
+
+app_name = "comments"
