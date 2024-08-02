@@ -24,7 +24,6 @@ class CommentSerializer(serializers.ModelSerializer):
             "text",
             "attachment",
             "created_at",
-
         ]
         read_only_fields = ["id", "created_at", "username"]
 
@@ -49,16 +48,18 @@ class CommentSerializer(serializers.ModelSerializer):
                 output.seek(0)
                 value = InMemoryUploadedFile(
                     output,
-                    'ImageField',
+                    "ImageField",
                     value.name,
                     file_mime_type,
                     sys.getsizeof(output),
-                    None
+                    None,
                 )
 
         elif file_mime_type in valid_text_mime_types:
             if value.size > 1024 * 100:
-                raise serializers.ValidationError("File size cannot exceed 100 KB for text files.")
+                raise serializers.ValidationError(
+                    "File size cannot exceed 100 KB for text files."
+                )
 
         else:
             raise serializers.ValidationError("Unsupported file type.")
@@ -67,7 +68,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class CommentListSerializer(CommentSerializer):
-
     replies = serializers.SerializerMethodField()
 
     class Meta:
@@ -87,5 +87,9 @@ class CommentListSerializer(CommentSerializer):
 
     def get_replies(self, obj):
         if obj.replies.exists():
-            return CommentSerializer(obj.replies.all(), many=True).data
+            return CommentListSerializer(
+                obj.replies.order_by("created_at"),
+                many=True,
+                context=self.context,
+            ).data
         return []
