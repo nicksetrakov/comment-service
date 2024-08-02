@@ -6,9 +6,17 @@ from .serializers import CommentSerializer, CommentListSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.filter(parent=None)
+    queryset = Comment.objects
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        queryset = self.queryset
+
+        if self.action == "list":
+            queryset = Comment.objects.filter(parent=None)
+
+        return queryset
 
     def get_serializer_class(self):
         if self.action in ("list", "retrieve"):
