@@ -2,13 +2,17 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import User, Comment
+from .permissions import IsOwnerOrAdmin
 from .serializers import CommentSerializer, CommentListSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerOrAdmin,
+    ]
 
     def get_queryset(self):
         queryset = self.queryset
@@ -26,6 +30,10 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def perform_destroy(self, instance):
+        instance.replies.all().delete()
+        instance.delete()
 
     @action(detail=True, methods=["post"])
     def reply(self, request, pk=None):
