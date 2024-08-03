@@ -14,7 +14,7 @@ services:
       sh -c "
       python manage.py wait_for_db
       && python manage.py migrate
-      && python manage.py runserver 0.0.0.0:8000"
+      && daphne -b 0.0.0.0 -p 8000 comment_system.asgi:application"
     depends_on:
       - db
       - redis
@@ -56,6 +56,30 @@ services:
       - .env
     depends_on:
       - redis
+
+  celery:
+    build:
+      context: .
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+    command: celery -A comment_system worker -l info
+    depends_on:
+      - redis
+      - db
+
+  celery-beat:
+    build:
+      context: .
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+    command: celery -A comment_system beat -l info
+    depends_on:
+      - redis
+      - db
 
 volumes:
   my_db:
