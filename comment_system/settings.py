@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_spectacular",
     "django_celery_beat",
+    "channels",
     "comments",
     "user",
 ]
@@ -75,6 +76,8 @@ TEMPLATES = [
         },
     },
 ]
+
+ASGI_APPLICATION = "comment_system.asgi.application"
 
 WSGI_APPLICATION = "comment_system.wsgi.application"
 
@@ -223,6 +226,25 @@ LOGGING = {
             "handlers": ["console", "file"],
             "level": "ERROR",
             "propagate": False,
+        },
+    },
+}
+
+# SMTP
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+
+# Channel
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
         },
     },
 }
