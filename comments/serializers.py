@@ -1,11 +1,11 @@
 import io
+import mimetypes
 import sys
 
 from PIL import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
-import magic
 from .models import User, Comment
 
 
@@ -29,15 +29,12 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def validate_attachment(self, value):
 
-        mime = magic.Magic(mime=True)
-        file_mime_type = mime.from_buffer(value.read())
-        value.seek(0)
+        file_mime_type, _ = mimetypes.guess_type(value.name)
 
         valid_image_mime_types = ["image/jpeg", "image/png", "image/gif"]
         valid_text_mime_types = ["text/plain"]
 
         if file_mime_type in valid_image_mime_types:
-
             image = Image.open(value)
             width, height = image.size
 
