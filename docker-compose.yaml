@@ -57,6 +57,18 @@ services:
     depends_on:
       - redis
 
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    hostname: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:$RABBITMQDATA
+    env_file:
+      - .env
+
   celery:
     build:
       context: .
@@ -66,7 +78,7 @@ services:
       - ./:/app
     command: celery -A comment_system worker -l info
     depends_on:
-      - redis
+      - rabbitmq
       - db
 
   celery-beat:
@@ -78,7 +90,7 @@ services:
       - ./:/app
     command: celery -A comment_system beat -l info
     depends_on:
-      - redis
+      - rabbitmq
       - db
 
 volumes:
@@ -86,3 +98,4 @@ volumes:
   my_media:
   pgadmin_data:
   logs:
+  rabbitmq_data:
