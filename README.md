@@ -21,12 +21,23 @@ Comment System is an application for managing comments with the ability to add, 
 ### Requirements
 
 - [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/) installed on your machine.
-- Create and fill .env file like .env.sample
 
 
-   ```bash
-   git clone https://github.com/your-username/comment-system.git
-   cd comment-system
+
+1. **Clone the repository:**
+
+   ```sh
+   git clone https://github.com/nicksetrakov/comment-service
+   cd comment-service
+   ```
+   
+2. Create an `.env` file in the root of the project directory. You can use the `.env.sample` file as a template:
+
+   ```sh
+   cp .env.example .env
+   ```
+3. Create app images and start it:
+   ```sh
    docker-compose build
    docker-compose up
    ```
