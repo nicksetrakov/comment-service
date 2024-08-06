@@ -21,6 +21,7 @@ Comment System is an application for managing comments with the ability to add, 
 ### Requirements
 
 - [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/) installed on your machine.
+- Create and fill .env file like .env.sample
 
 
    ```bash
@@ -29,6 +30,13 @@ Comment System is an application for managing comments with the ability to add, 
    docker-compose build
    docker-compose up
    ```
+and try to open http://127.0.0.1:8001/api/doc/swagger
+
+### You can login with these credentials:
+```
+username: admin
+password: admin
+```
 
 ## API Documentation
 
