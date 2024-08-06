@@ -34,7 +34,7 @@ Comment System is an application for managing comments with the ability to add, 
 2. Create an `.env` file in the root of the project directory. You can use the `.env.sample` file as a template:
 
    ```sh
-   cp .env.example .env
+   cp .env.sample .env
    ```
 3. Create app images and start it:
    ```sh
