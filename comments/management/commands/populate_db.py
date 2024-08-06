@@ -2,8 +2,9 @@ import random
 
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
-from comments.models import Comment
 from faker import Faker
+
+from comments.models import Comment
 
 User = get_user_model()
 

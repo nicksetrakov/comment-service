@@ -1,4 +1,5 @@
-from django.urls import path, re_path
+from django.urls import re_path
+
 from comments.consumers import CommentConsumer
 
 websocket_urlpatterns = [

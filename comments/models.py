@@ -10,9 +10,7 @@ User = get_user_model()
 
 def attachment_image_file_path(instance: "Comment", filename: str) -> str:
     _, extension = os.path.splitext(filename)
-    filename = (
-        f"{slugify(instance.user.username)}-{uuid.uuid4()}{extension}"
-    )
+    filename = f"{slugify(instance.user.username)}-{uuid.uuid4()}{extension}"
 
     return os.path.join("uploads/attachments/", filename)
 
@@ -21,7 +19,9 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField()
     homepage = models.URLField(blank=True, null=True)
-    attachment = models.FileField(upload_to=attachment_image_file_path, blank=True, null=True)
+    attachment = models.FileField(
+        upload_to=attachment_image_file_path, blank=True, null=True
+    )
     text = models.TextField()
     parent = models.ForeignKey(
         "self",

@@ -6,7 +6,8 @@ from PIL import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
-from .models import User, Comment
+
+from .models import Comment
 
 
 class CommentSerializer(serializers.ModelSerializer):

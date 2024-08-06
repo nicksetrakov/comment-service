@@ -17,11 +17,18 @@ from .serializers import CommentSerializer, CommentListSerializer
 @extend_schema_view(
     list=extend_schema(
         summary="Retrieve a list of comments",
-        description="Retrieve a list of all top-level comments. Accessible by authenticated users.",
+        description=(
+                "Retrieve a list of all top-level comments. "
+                "Accessible by authenticated users."
+        ),
         parameters=[
             OpenApiParameter(
                 name="ordering",
-                description="Ordering of the comments (e.g., ?ordering=user__username or ?ordering=-created_at).",
+                description=(
+                    "Ordering of the comments "
+                    "(e.g., ?ordering=user__username or "
+                    "?ordering=-created_at)."
+                ),
                 required=False,
                 type=OpenApiTypes.STR,
             ),
@@ -39,7 +46,10 @@ from .serializers import CommentSerializer, CommentListSerializer
                         "text": "This is a comment.",
                         "parent": None,
                         "created_at": "2024-06-18T12:00:00Z",
-                        "attachment": "http://example.com/uploads/attachments/user1-uuid.jpg",
+                        "attachment": (
+                                "http://example.com/uploads/attachments/"
+                                "user1-uuid.jpg"
+                        ),
                         "replies": [],
                     }
                 ],
@@ -48,7 +58,10 @@ from .serializers import CommentSerializer, CommentListSerializer
     ),
     retrieve=extend_schema(
         summary="Retrieve a single comment",
-        description="Retrieve the details of a specific comment by its ID. Accessible by authenticated users.",
+        description=(
+                "Retrieve the details of a specific comment by its ID. "
+                "Accessible by authenticated users."
+        ),
         responses={200: CommentListSerializer},
     ),
     create=extend_schema(
