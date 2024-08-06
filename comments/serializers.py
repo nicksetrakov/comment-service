@@ -82,7 +82,7 @@ class CommentListSerializer(CommentSerializer):
         ]
         read_only_fields = ["id", "created_at", "username"]
 
-    def get_replies(self, obj):
+    def get_replies(self, obj) -> list:
         if obj.replies.exists():
             return CommentListSerializer(
                 obj.replies.order_by("created_at"),
